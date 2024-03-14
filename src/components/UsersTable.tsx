@@ -59,6 +59,8 @@ type Row = {
 
 const UsersTable = () => {
 
+    const [selectedUsers, setSelectedUsers] = useState([])
+
     const renderDepartmentTagColor = (departmentName: string) => {
         let depColor = 'primary'
         switch (departmentName) {
@@ -88,13 +90,21 @@ const UsersTable = () => {
     }
 
     const renderRow = (rowData: Row) => {
+        const getCheckboxValue = () => {
+            return false
+        }
+
+        const handleChecking = () => {
+            console.log('add logic of checking')
+        }
+
         return(
             <TableRow 
                 key={rowData.id} 
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell sx={{maxWidth: 8}}>
-                    <CustomCheckbox label=''/>
+                    <CustomCheckbox label='' value={getCheckboxValue()} setValue={handleChecking}/>
                 </TableCell>
                 <TableCell component="th" scope="row">
                 {rowData.name}

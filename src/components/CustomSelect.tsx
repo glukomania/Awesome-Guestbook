@@ -23,7 +23,9 @@ const CustomInputLabel = styled(InputLabel)({
 });
 
 type CustomInputProps = {
-    label: string
+    label: string,
+    value: string,
+    setValue: (arg: string) => void
 }
 
 function CustomSelect(props: CustomInputProps) {
@@ -36,7 +38,7 @@ function CustomSelect(props: CustomInputProps) {
             {props.label}
         </CustomInputLabel>
         <Select
-            value={department}
+            value={props.value}
             sx={{'& .MuiOutlinedInput-notchedOutline': {
             border: '1px solid',
             borderColor: '#00000060',
@@ -44,7 +46,7 @@ function CustomSelect(props: CustomInputProps) {
             }, 
             padding: '0px, 12px, 0px, 12px', 
             mb: 3}}
-            onChange={(event) => setDepartment(event.target.value as string)}
+            onChange={(event) => props.setValue(event.target.value as string)}
         >
             
             <MenuItem value={'Marketing'}>Marketing</MenuItem>

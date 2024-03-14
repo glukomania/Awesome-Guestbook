@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import Typography from '@mui/material/Typography';
 import {Box, Button} from '@mui/material';
 import HistoryIcon from '@mui/icons-material/History';
@@ -15,7 +15,10 @@ const UserForm = () => {
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
-    const [department, setDepartment] = useState('');
+    const [department, setDepartment] = useState('Marketing')
+    const [isAgree, setIsAgree] = useState(false)
+    const [warningColor, setWarningColor] = useState('white')
+    const [warningText, setWarningText] = useState('.')
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -23,15 +26,33 @@ const UserForm = () => {
 
     };
 
-    const resetForm = () => {
+    const resetForm = useCallback(() => {
         console.log('resetForm')
-      };
-    
-      const addNewVisitor = (event: React.MouseEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log('addNewVisitor')
-    };
+        setFullName('')
+        setEmail('')
+        setDepartment('Marketing')
+        setWarningColor('white')
+        setWarningText('.')
+      },[])
 
+    const validate = (value: string, type: string) => {
+        switch (type){
+            case 'name': 
+                console.log('name validation')
+                setWarningText('Full name field is incorrect. Please check.')
+                setWarningColor('red')
+                return false
+            case 'email':
+                console.log('email validataion')
+                setWarningText('Email field is incorrect. Please check.')
+                setWarningColor('red')
+                return false
+            default:
+                console.log('unknown type')
+                return true
+        }
+    }
+    
     return (
     <form onSubmit={handleSubmit}>
         <Typography variant="h6" >
@@ -41,12 +62,16 @@ const UserForm = () => {
             Fill name, email address and the department.
         </Typography>
         <Box sx={{mt: 2}}>
-            <CustomInput label={'Full name'}/>
-            <CustomInput label={'Email address *'}/>
+            <CustomInput label={'Full name'} value={fullName} setValue={setFullName}/>
+            <CustomInput label={'Email address *'} value={email} setValue={setEmail}/>
         </Box>
 
-        <CustomSelect label={'Department'} />
-        <CustomCheckbox label={'I agree to be added to the table'} />
+        <CustomSelect label={department} value={department} setValue={setDepartment}/>
+        <CustomCheckbox label={'I agree to be added to the table'} value={isAgree} setValue={setIsAgree}/>
+
+        <Typography sx={{color: 'red', fontSize: 12, lineHeight: '5px', mt: 1}}>
+            {warningText}
+        </Typography>
         <Box
             sx={{
                 display: 'flex',
@@ -54,7 +79,7 @@ const UserForm = () => {
                 justifyContent: 'space-between',
                 gap: 2, 
                 width: '100%',
-                mt: 3
+                mt: 2
             }}
             >
             <Button 

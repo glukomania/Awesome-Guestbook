@@ -23,7 +23,9 @@ const CustomInputLabel = styled(InputLabel)({
 });
 
 type CustomInputProps = {
-    label: string
+    label: string,
+    value: string,
+    setValue: (arg: string) => void
 }
 
 function CustomInput(props: CustomInputProps) {
@@ -41,6 +43,8 @@ function CustomInput(props: CustomInputProps) {
             borderRadius: 1
           }, padding: '0px, 12px, 0px, 12px',
         mb: 3}}
+        value={props.value}
+        onChange={(event) => props.setValue(event.target.value)}
       />
     </FormControl>
   );

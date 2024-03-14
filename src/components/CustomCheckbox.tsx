@@ -3,22 +3,19 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 type CustomCheckboxProps = {
-  label: string
+  label: string,
+  value: boolean,
+  setValue: (arg: boolean) => void
 }
 
-const CustomCheckbox = (props: CustomCheckboxProps) => {
-    const [checked, setChecked] = useState(false);
-  
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setChecked(event.target.checked);
-    };
+const CustomCheckbox = (props: CustomCheckboxProps) => {  
   
     return (
       <FormControlLabel
         control={
           <Checkbox
-            checked={checked}
-            onChange={handleChange}
+            checked={props.value}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.setValue(event.target.checked)}
             inputProps={{ 'aria-label': 'controlled' }}
           />
         }
