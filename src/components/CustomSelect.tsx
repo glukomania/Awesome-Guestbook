@@ -1,20 +1,5 @@
-import React, {useState} from 'react';
-import { TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/system';
-
-const CustomTextField = styled(TextField)({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#00000060',
-    },
-    '&:hover fieldset': {
-      borderColor: 'black',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: 'black',
-    },
-  },
-});
+import { InputLabel, FormControl, Select, MenuItem } from '@mui/material'
+import { styled } from '@mui/system'
 
 const CustomInputLabel = styled(InputLabel)({
   backgroundColor: 'white',
@@ -23,12 +8,12 @@ const CustomInputLabel = styled(InputLabel)({
 });
 
 type CustomInputProps = {
-    label: string
+    label: string,
+    value: string,
+    setValue: (arg: string) => void
 }
 
-function CustomSelect(props: CustomInputProps) {
-
-    const [department, setDepartment] = useState('Marketing');
+const CustomSelect = (props: CustomInputProps) => {
 
   return (
     <FormControl variant="outlined" fullWidth>
@@ -36,7 +21,7 @@ function CustomSelect(props: CustomInputProps) {
             {props.label}
         </CustomInputLabel>
         <Select
-            value={department}
+            value={props.value}
             sx={{'& .MuiOutlinedInput-notchedOutline': {
             border: '1px solid',
             borderColor: '#00000060',
@@ -44,7 +29,7 @@ function CustomSelect(props: CustomInputProps) {
             }, 
             padding: '0px, 12px, 0px, 12px', 
             mb: 3}}
-            onChange={(event) => setDepartment(event.target.value as string)}
+            onChange={(event) => props.setValue(event.target.value as string)}
         >
             
             <MenuItem value={'Marketing'}>Marketing</MenuItem>
@@ -57,4 +42,4 @@ function CustomSelect(props: CustomInputProps) {
   );
 }
 
-export default CustomSelect;
+export default CustomSelect

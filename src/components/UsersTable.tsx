@@ -1,63 +1,18 @@
-import React, {useState} from 'react';
-import Typography from '@mui/material/Typography';
-import {Box, Chip, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
-import HistoryIcon from '@mui/icons-material/History';
-import PersonIcon from '@mui/icons-material/Person';
-
-import CustomInput from './CustonInput'
-import CustomSelect from './CustomSelect';
+import {useEffect, useState} from 'react'
+import Typography from '@mui/material/Typography'
+import {Box, Chip, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material'
 import CustomCheckbox from './CustomCheckbox'
-
 import Toolbar from './Toolbar'
+import { User } from '../types/types'
 
-const rows = [
-    {
-        id: 1,
-        name: 'John Smith',
-        email: 'smith@mail.com',
-        department: 'Marketing'
-    },
-    {
-        id: 2,
-        name: 'Hiro Joice',
-        email: 'joyce@mail.com',
-        department: 'IT'
-    },
-    {
-        id: 3,
-        name: 'Lloyd Jefferson',
-        email: 'jeff@mail.com',
-        department: 'Sales'
-    },
-    {
-        id: 4,
-        name: 'John Smith',
-        email: 'smith@mail.com',
-        department: 'Management'
-    },
-    {
-        id: 5,
-        name: 'Hiro Joice',
-        email: 'joyce@mail.com',
-        department: 'IT'
-    },
-    {
-        id: 6,
-        name: 'Lloyd Jefferson',
-        email: 'jeff@mail.com',
-        department: 'Accounting'
-    }
 
-]
-
-type Row = {
-    id: number,
-    name: string,
-    email: string,
-    department: string
+type UserProps = {
+    users: User[]
 }
 
-const UsersTable = () => {
+const UsersTable = (props: UserProps) => {
+
+    const [selectedUsers, setSelectedUsers] = useState([])
 
     const renderDepartmentTagColor = (departmentName: string) => {
         let depColor = 'primary'
@@ -87,17 +42,25 @@ const UsersTable = () => {
         )
     }
 
-    const renderRow = (rowData: Row) => {
+    const renderRow = (rowData: User) => {
+        const getCheckboxValue = () => {
+            return false
+        }
+
+        const handleChecking = () => {
+            console.log('add logic of checking')
+        }
+
         return(
             <TableRow 
                 key={rowData.id} 
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell sx={{maxWidth: 8}}>
-                    <CustomCheckbox label=''/>
+                    <CustomCheckbox label='' value={getCheckboxValue()} setValue={handleChecking}/>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                {rowData.name}
+                {rowData.fullName}
                 </TableCell>
                 <TableCell>{rowData.email}</TableCell>
                 <TableCell align="right">{renderDepartmentTagColor(rowData.department)}</TableCell>
@@ -105,10 +68,14 @@ const UsersTable = () => {
         )
     }
 
+    useEffect(() => {
+        console.log('props.users', props.users)
+    }, [props.users])
+
     return (
-    <Box>
+        props.users.length > 0 ? (<Box>
         <Typography variant="h6" sx={{p: 3, pl: 2}}>
-            Add new visitor
+            Visitor management
         </Typography>
         <Toolbar />
 
@@ -122,12 +89,23 @@ const UsersTable = () => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.map(renderRow)}
+                {props.users && props.users.map(renderRow)}
             </TableBody>
         </Table>
 
+    </Box> ) : (
+        <Box>
+        <Typography variant="h6" sx={{p: 3, pl: 2}}>
+            Visitor management
+        </Typography>
+
+        <Typography variant="h6" sx={{p: 3, pl: 2, color: 'lightGrey'}}>
+            No users yet
+        </Typography>
+
+
     </Box> 
-    )
+    ))
 }
 
 
