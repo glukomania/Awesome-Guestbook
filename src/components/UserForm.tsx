@@ -1,29 +1,52 @@
-import React, {useState, useCallback} from 'react';
-import Typography from '@mui/material/Typography';
-import {Box, Button} from '@mui/material';
-import HistoryIcon from '@mui/icons-material/History';
-import PersonIcon from '@mui/icons-material/Person';
-
-
-
+import React, {useState, useCallback} from 'react'
+import Typography from '@mui/material/Typography'
+import {Box, Button} from '@mui/material'
+import HistoryIcon from '@mui/icons-material/History'
+import PersonIcon from '@mui/icons-material/Person'
+import { User } from '../types/types'
 import CustomInput from './CustonInput'
-import CustomSelect from './CustomSelect';
+import CustomSelect from './CustomSelect'
 import CustomCheckbox from './CustomCheckbox'
 
+import { addUser, getTableData } from '../utils/localStorage'
 
-const UserForm = () => {
+type UserFormProps = {
+    setUsers: (arg: User[]) => void
+}
+const UserForm = (props: UserFormProps) => {
 
-    const [fullName, setFullName] = useState('');
-    const [email, setEmail] = useState('');
+    const [fullName, setFullName] = useState('')
+    const [email, setEmail] = useState('')
     const [department, setDepartment] = useState('Marketing')
     const [isAgree, setIsAgree] = useState(false)
     const [warningColor, setWarningColor] = useState('white')
     const [warningText, setWarningText] = useState('.')
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      console.log('handleSubmit')
+        event.preventDefault();
+        
+        const nameValidation = validate(fullName, 'name')
+        const emailValidation = validate(email, 'email')
+        // const checkboxValidation = validate(isAgree, 'agree')
 
+        if (!nameValidation.isValid || !emailValidation.isValid) {
+            if (!nameValidation.isValid) {
+                setWarningText(nameValidation.message);
+            } else if (!emailValidation.isValid) {
+                setWarningText(emailValidation.message);
+            }
+            setWarningColor('red');
+            return;
+        }
+
+        setWarningColor('white');
+        setWarningText('.');
+        
+        console.log('Form is valid', { fullName, email, department, isAgree });
+        
+        addUser({ fullName, email, department })
+        const newTableData = getTableData()
+        props.setUsers(newTableData)
     };
 
     const resetForm = useCallback(() => {
@@ -35,23 +58,26 @@ const UserForm = () => {
         setWarningText('.')
       },[])
 
-    const validate = (value: string, type: string) => {
+      const validate = (value: string, type: string) => {
         switch (type){
             case 'name': 
-                console.log('name validation')
-                setWarningText('Full name field is incorrect. Please check.')
-                setWarningColor('red')
-                return false
+                console.log('name validation');
+                if (value.trim() === '') { 
+                    return { isValid: false, message: 'Full name field is incorrect. Please check.' };
+                }
+                return { isValid: true, message: '' };
             case 'email':
-                console.log('email validataion')
-                setWarningText('Email field is incorrect. Please check.')
-                setWarningColor('red')
-                return false
+                console.log('email validation');
+                if (!/\S+@\S+\.\S+/.test(value)) {
+                    return { isValid: false, message: 'Email field is incorrect. Please check.' };
+                }
+                return { isValid: true, message: '' };
+
             default:
-                console.log('unknown type')
-                return true
+                console.log('unknown type');
+                return { isValid: true, message: '' };
         }
-    }
+    };
     
     return (
     <form onSubmit={handleSubmit}>

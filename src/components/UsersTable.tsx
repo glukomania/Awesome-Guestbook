@@ -1,14 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import {Box, Chip, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
-import HistoryIcon from '@mui/icons-material/History';
-import PersonIcon from '@mui/icons-material/Person';
-
-import CustomInput from './CustonInput'
-import CustomSelect from './CustomSelect';
 import CustomCheckbox from './CustomCheckbox'
-
 import Toolbar from './Toolbar'
+import { User } from '../types/types'
+
 
 const rows = [
     {
@@ -50,14 +46,12 @@ const rows = [
 
 ]
 
-type Row = {
-    id: number,
-    name: string,
-    email: string,
-    department: string
+
+type UserProps = {
+    users: User[]
 }
 
-const UsersTable = () => {
+const UsersTable = (props: UserProps) => {
 
     const [selectedUsers, setSelectedUsers] = useState([])
 
@@ -89,7 +83,7 @@ const UsersTable = () => {
         )
     }
 
-    const renderRow = (rowData: Row) => {
+    const renderRow = (rowData: User) => {
         const getCheckboxValue = () => {
             return false
         }
@@ -107,7 +101,7 @@ const UsersTable = () => {
                     <CustomCheckbox label='' value={getCheckboxValue()} setValue={handleChecking}/>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                {rowData.name}
+                {rowData.fullName}
                 </TableCell>
                 <TableCell>{rowData.email}</TableCell>
                 <TableCell align="right">{renderDepartmentTagColor(rowData.department)}</TableCell>
@@ -115,10 +109,14 @@ const UsersTable = () => {
         )
     }
 
+    useEffect(() => {
+        console.log('props.users', props.users)
+    }, [props.users])
+
     return (
-    <Box>
+        props.users ? (<Box>
         <Typography variant="h6" sx={{p: 3, pl: 2}}>
-            Add new visitor
+            Visitor management
         </Typography>
         <Toolbar />
 
@@ -132,11 +130,23 @@ const UsersTable = () => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.map(renderRow)}
+                {props.users && props.users.map(renderRow)}
             </TableBody>
         </Table>
 
+    </Box> ) : (
+        <Box>
+        <Typography variant="h6" sx={{p: 3, pl: 2}}>
+            Visitor management
+        </Typography>
+
+        <Typography variant="h6" sx={{p: 3, pl: 2, color: 'lightGrey'}}>
+            No users yet
+        </Typography>
+
+
     </Box> 
+    )
     )
 }
 
