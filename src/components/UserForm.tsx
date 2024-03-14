@@ -53,7 +53,9 @@ const UserForm = () => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 gap: 2, 
-                width: '100%',            }}
+                width: '100%',
+                mt: 3
+            }}
             >
             <Button 
                 variant="outlined" 
