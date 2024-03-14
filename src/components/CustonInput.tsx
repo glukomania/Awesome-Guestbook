@@ -1,6 +1,6 @@
-import React from 'react';
-import { TextField, InputLabel, FormControl } from '@mui/material';
-import { styled } from '@mui/system';
+import React from 'react'
+import { TextField, InputLabel, FormControl } from '@mui/material'
+import { styled } from '@mui/system'
 
 const CustomTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
@@ -50,4 +50,4 @@ function CustomInput(props: CustomInputProps) {
   );
 }
 
-export default CustomInput;
+export default CustomInput

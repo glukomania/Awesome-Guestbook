@@ -1,50 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import Typography from '@mui/material/Typography';
-import {Box, Chip, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material';
+import {useEffect, useState} from 'react'
+import Typography from '@mui/material/Typography'
+import {Box, Chip, Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material'
 import CustomCheckbox from './CustomCheckbox'
 import Toolbar from './Toolbar'
 import { User } from '../types/types'
-
-
-const rows = [
-    {
-        id: 1,
-        name: 'John Smith',
-        email: 'smith@mail.com',
-        department: 'Marketing'
-    },
-    {
-        id: 2,
-        name: 'Hiro Joice',
-        email: 'joyce@mail.com',
-        department: 'IT'
-    },
-    {
-        id: 3,
-        name: 'Lloyd Jefferson',
-        email: 'jeff@mail.com',
-        department: 'Sales'
-    },
-    {
-        id: 4,
-        name: 'John Smith',
-        email: 'smith@mail.com',
-        department: 'Management'
-    },
-    {
-        id: 5,
-        name: 'Hiro Joice',
-        email: 'joyce@mail.com',
-        department: 'IT'
-    },
-    {
-        id: 6,
-        name: 'Lloyd Jefferson',
-        email: 'jeff@mail.com',
-        department: 'Accounting'
-    }
-
-]
 
 
 type UserProps = {
@@ -114,7 +73,7 @@ const UsersTable = (props: UserProps) => {
     }, [props.users])
 
     return (
-        props.users ? (<Box>
+        props.users.length > 0 ? (<Box>
         <Typography variant="h6" sx={{p: 3, pl: 2}}>
             Visitor management
         </Typography>
@@ -146,8 +105,7 @@ const UsersTable = (props: UserProps) => {
 
 
     </Box> 
-    )
-    )
+    ))
 }
 
 

@@ -22,31 +22,54 @@ const UserForm = (props: UserFormProps) => {
     const [warningColor, setWarningColor] = useState('white')
     const [warningText, setWarningText] = useState('.')
 
+    const validateString = (value: string, type: string) => {
+        switch (type){
+            case 'name': 
+                console.log('name validation')
+                if (value.trim() === '') { 
+                    return { isValid: false, message: 'Full name field is incorrect. Please check.' };
+                }
+                return { isValid: true, message: '' }
+            case 'email':
+                console.log('email validation');
+                if (!/\S+@\S+\.\S+/.test(value)) {
+                    return { isValid: false, message: 'Email field is incorrect. Please check.' };
+                }
+                return { isValid: true, message: '' }
+
+            default:
+                console.log('unknown type');
+                return { isValid: true, message: '' }
+        }
+    }
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
-        const nameValidation = validate(fullName, 'name')
-        const emailValidation = validate(email, 'email')
-        // const checkboxValidation = validate(isAgree, 'agree')
+        const nameValidation = validateString(fullName, 'name')
+        const emailValidation = validateString(email, 'email')
 
-        if (!nameValidation.isValid || !emailValidation.isValid) {
+        if (!nameValidation.isValid || !emailValidation.isValid || !isAgree) {
             if (!nameValidation.isValid) {
-                setWarningText(nameValidation.message);
+                setWarningText(nameValidation.message)
             } else if (!emailValidation.isValid) {
-                setWarningText(emailValidation.message);
+                setWarningText(emailValidation.message)
+            } else if (!isAgree) {
+                setWarningText('You must agree to be added')
             }
-            setWarningColor('red');
+            setWarningColor('red')
             return;
         }
 
-        setWarningColor('white');
-        setWarningText('.');
-        
-        console.log('Form is valid', { fullName, email, department, isAgree });
-        
+        setWarningColor('white')
+        setWarningText('.')
+                
         addUser({ fullName, email, department })
+
         const newTableData = getTableData()
         props.setUsers(newTableData)
+
+        resetForm()
     };
 
     const resetForm = useCallback(() => {
@@ -54,30 +77,10 @@ const UserForm = (props: UserFormProps) => {
         setFullName('')
         setEmail('')
         setDepartment('Marketing')
+        setIsAgree(false)
         setWarningColor('white')
         setWarningText('.')
       },[])
-
-      const validate = (value: string, type: string) => {
-        switch (type){
-            case 'name': 
-                console.log('name validation');
-                if (value.trim() === '') { 
-                    return { isValid: false, message: 'Full name field is incorrect. Please check.' };
-                }
-                return { isValid: true, message: '' };
-            case 'email':
-                console.log('email validation');
-                if (!/\S+@\S+\.\S+/.test(value)) {
-                    return { isValid: false, message: 'Email field is incorrect. Please check.' };
-                }
-                return { isValid: true, message: '' };
-
-            default:
-                console.log('unknown type');
-                return { isValid: true, message: '' };
-        }
-    };
     
     return (
     <form onSubmit={handleSubmit}>
@@ -95,7 +98,7 @@ const UserForm = (props: UserFormProps) => {
         <CustomSelect label={department} value={department} setValue={setDepartment}/>
         <CustomCheckbox label={'I agree to be added to the table'} value={isAgree} setValue={setIsAgree}/>
 
-        <Typography sx={{color: 'red', fontSize: 12, lineHeight: '5px', mt: 1}}>
+        <Typography sx={{color: warningColor, fontSize: 12, lineHeight: '5px', mt: 1}}>
             {warningText}
         </Typography>
         <Box

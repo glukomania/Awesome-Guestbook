@@ -1,6 +1,6 @@
 import {useState} from 'react'
-import { Button, Box } from '@mui/material';
-import CustomCheckbox from './CustomCheckbox';
+import { Button, Box } from '@mui/material'
+import CustomCheckbox from './CustomCheckbox'
 
 const Toolbar = () => {
     const [value, setValue] = useState(false)

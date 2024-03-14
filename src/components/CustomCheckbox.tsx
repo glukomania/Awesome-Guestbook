@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import React from 'react'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
 type CustomCheckboxProps = {
   label: string,
@@ -24,4 +24,4 @@ const CustomCheckbox = (props: CustomCheckboxProps) => {
     );
   }
   
-  export default CustomCheckbox;
+  export default CustomCheckbox

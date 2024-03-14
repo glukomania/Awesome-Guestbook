@@ -1,20 +1,5 @@
-import React, {useState} from 'react';
-import { TextField, InputLabel, FormControl, Select, MenuItem } from '@mui/material';
-import { styled } from '@mui/system';
-
-const CustomTextField = styled(TextField)({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#00000060',
-    },
-    '&:hover fieldset': {
-      borderColor: 'black',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: 'black',
-    },
-  },
-});
+import { InputLabel, FormControl, Select, MenuItem } from '@mui/material'
+import { styled } from '@mui/system'
 
 const CustomInputLabel = styled(InputLabel)({
   backgroundColor: 'white',
@@ -28,9 +13,7 @@ type CustomInputProps = {
     setValue: (arg: string) => void
 }
 
-function CustomSelect(props: CustomInputProps) {
-
-    const [department, setDepartment] = useState('Marketing');
+const CustomSelect = (props: CustomInputProps) => {
 
   return (
     <FormControl variant="outlined" fullWidth>
@@ -59,4 +42,4 @@ function CustomSelect(props: CustomInputProps) {
   );
 }
 
-export default CustomSelect;
+export default CustomSelect
