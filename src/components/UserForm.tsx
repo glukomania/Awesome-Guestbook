@@ -11,7 +11,8 @@ import CustomCheckbox from './CustomCheckbox'
 import { addUser, getTableData } from '../utils/localStorage'
 
 type UserFormProps = {
-    setUsers: (arg: User[]) => void
+    setUsers: (arg: User[]) => void,
+    users: User[]
 }
 const UserForm = (props: UserFormProps) => {
 
@@ -26,12 +27,18 @@ const UserForm = (props: UserFormProps) => {
         switch (type){
             case 'name': 
                 if (value.trim() === '') { 
-                    return { isValid: false, message: 'Full name field is incorrect. Please check.' }
+                    return { isValid: false, message: "Full name can't be empty. Please check." }
                 }
                 return { isValid: true, message: '' }
             case 'email':
+                if (value.trim() === '') { 
+                    return { isValid: false, message: "Email can't be empty. Please check." }
+                }
                 if (!/\S+@\S+\.\S+/.test(value)) {
                     return { isValid: false, message: 'Email field is incorrect. Please check.' }
+                }
+                if (props.users.some((item) => item.email === value)){
+                    return { isValid: false, message: 'User with such email already exists. Please check.' }  
                 }
                 return { isValid: true, message: '' }
 

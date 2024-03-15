@@ -24,7 +24,7 @@ function App() {
       <TopPanel/>
       <Box sx={{display: 'flex', justifyContent: 'space-between', p: 4 }}>
         <Paper sx={{width: '400px', maxHeight: '430px', mr: 4, p: 3, borderRadius: 3, boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
-          <UserForm setUsers={setUsers}/>
+          <UserForm setUsers={setUsers} users={users}/>
         </Paper>
         <Paper sx={{flexGrow: 1, borderRadius: 3, boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
           <UsersTable users={users} setUsers={setUsers} />
