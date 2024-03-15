@@ -16,9 +16,12 @@ function App() {
 
   useEffect(() => {
     const userData = getTableData()
-    console.log('userData', userData)
     setUsers(userData)
   }, [])
+
+  useEffect(() => {
+    console.log('App: users', users)
+  }, [users])
 
   return (
     <Container maxWidth={false} disableGutters>
@@ -28,7 +31,7 @@ function App() {
           <UserForm setUsers={setUsers}/>
         </Paper>
         <Paper sx={{flexGrow: 1, borderRadius: 3, boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
-          <UsersTable users={users} />
+          <UsersTable users={users} setUsers={setUsers}/>
         </Paper>
       </Box>
     </Container>
