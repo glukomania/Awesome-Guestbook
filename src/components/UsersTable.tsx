@@ -7,12 +7,13 @@ import { User } from '../types/types'
 
 
 type UserProps = {
-    users: User[]
+    users: User[],
+    setUsers: (arg: User[]) => void
 }
 
 const UsersTable = (props: UserProps) => {
 
-    const [selectedUsers, setSelectedUsers] = useState([])
+    const [selectedUsers, setSelectedUsers] = useState<number[]>([])
 
     const renderDepartmentTagColor = (departmentName: string) => {
         let depColor = 'primary'
@@ -42,14 +43,20 @@ const UsersTable = (props: UserProps) => {
         )
     }
 
-    const renderRow = (rowData: User) => {
-        const getCheckboxValue = () => {
-            return false
-        }
+    const handleChecking = (value: boolean, id: number) => {
+        setSelectedUsers((currentSelectedUsers: number[]) => {
+            if (value) {
+                if (!currentSelectedUsers.includes(id)) {
+                    return [...currentSelectedUsers, id];
+                }
+            } else {
+                return currentSelectedUsers.filter((userId) => userId !== id);
+            }
+            return currentSelectedUsers;
+        });
+    };
 
-        const handleChecking = () => {
-            console.log('add logic of checking')
-        }
+    const renderRow = (rowData: User) => {
 
         return(
             <TableRow 
@@ -57,27 +64,40 @@ const UsersTable = (props: UserProps) => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell sx={{maxWidth: 8}}>
-                    <CustomCheckbox label='' value={getCheckboxValue()} setValue={handleChecking}/>
+                    <CustomCheckbox 
+                        label='' 
+                        value={selectedUsers.includes(rowData.id)} 
+                        setValue={(value) => handleChecking(value, rowData.id)}
+                    />
                 </TableCell>
                 <TableCell component="th" scope="row">
-                {rowData.fullName}
+                    {rowData.fullName}
                 </TableCell>
-                <TableCell>{rowData.email}</TableCell>
-                <TableCell align="right">{renderDepartmentTagColor(rowData.department)}</TableCell>
+                <TableCell>
+                    {rowData.email}
+                </TableCell>
+                <TableCell align="right">
+                    {renderDepartmentTagColor(rowData.department)}
+                </TableCell>
             </TableRow>
         )
     }
 
     useEffect(() => {
-        console.log('props.users', props.users)
+        console.log('selectedUsers', selectedUsers)
+    }, [selectedUsers])
+
+    useEffect(() => {
+        console.log('UserTable users', props.users)
     }, [props.users])
+
 
     return (
         props.users.length > 0 ? (<Box>
         <Typography variant="h6" sx={{p: 3, pl: 2}}>
             Visitor management
         </Typography>
-        <Toolbar />
+        <Toolbar allusers={props.users} setUsers={props.setUsers} selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
 
         <Table>
             <TableHead>

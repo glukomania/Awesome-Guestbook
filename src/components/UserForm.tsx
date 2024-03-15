@@ -64,7 +64,7 @@ const UserForm = (props: UserFormProps) => {
         setWarningColor('white')
         setWarningText('.')
                 
-        addUser({ fullName, email, department })
+        addUser({ id: NaN, fullName, email, department })
 
         const newTableData = getTableData()
         props.setUsers(newTableData)
@@ -81,7 +81,8 @@ const UserForm = (props: UserFormProps) => {
         setWarningColor('white')
         setWarningText('.')
       },[])
-    
+
+      
     return (
     <form onSubmit={handleSubmit}>
         <Typography variant="h6" >
