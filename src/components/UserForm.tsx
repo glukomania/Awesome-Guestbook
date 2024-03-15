@@ -25,20 +25,17 @@ const UserForm = (props: UserFormProps) => {
     const validateString = (value: string, type: string) => {
         switch (type){
             case 'name': 
-                console.log('name validation')
                 if (value.trim() === '') { 
-                    return { isValid: false, message: 'Full name field is incorrect. Please check.' };
+                    return { isValid: false, message: 'Full name field is incorrect. Please check.' }
                 }
                 return { isValid: true, message: '' }
             case 'email':
-                console.log('email validation');
                 if (!/\S+@\S+\.\S+/.test(value)) {
-                    return { isValid: false, message: 'Email field is incorrect. Please check.' };
+                    return { isValid: false, message: 'Email field is incorrect. Please check.' }
                 }
                 return { isValid: true, message: '' }
 
             default:
-                console.log('unknown type');
                 return { isValid: true, message: '' }
         }
     }
@@ -73,7 +70,6 @@ const UserForm = (props: UserFormProps) => {
     };
 
     const resetForm = useCallback(() => {
-        console.log('resetForm')
         setFullName('')
         setEmail('')
         setDepartment('Marketing')

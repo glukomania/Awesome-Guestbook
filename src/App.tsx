@@ -19,19 +19,15 @@ function App() {
     setUsers(userData)
   }, [])
 
-  useEffect(() => {
-    console.log('App: users', users)
-  }, [users])
-
   return (
     <Container maxWidth={false} disableGutters>
-      <TopPanel />
+      <TopPanel/>
       <Box sx={{display: 'flex', justifyContent: 'space-between', p: 4 }}>
         <Paper sx={{width: '400px', maxHeight: '430px', mr: 4, p: 3, borderRadius: 3, boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
           <UserForm setUsers={setUsers}/>
         </Paper>
         <Paper sx={{flexGrow: 1, borderRadius: 3, boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
-          <UsersTable users={users} setUsers={setUsers}/>
+          <UsersTable users={users} setUsers={setUsers} />
         </Paper>
       </Box>
     </Container>

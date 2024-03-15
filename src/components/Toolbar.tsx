@@ -15,8 +15,6 @@ const Toolbar = (props: ToolbarProps) => {
     const [value, setValue] = useState(false)
 
     const handleRemoveClick = () => {
-        console.log('remove!')
-        console.log('props.selectedUsers', props.selectedUsers)
         deleteUsers(props.selectedUsers)
         props.setSelectedUsers([])
         props.setUsers(getTableData())
@@ -24,8 +22,6 @@ const Toolbar = (props: ToolbarProps) => {
 
     const handleSelectAll = (isChecked: boolean) => {
         if (isChecked) {
-            console.log('Toolbar props.allusers', props.allusers)
-
             const ids = props.allusers.map(user => user.id);
 
             props.setSelectedUsers(ids)
@@ -35,11 +31,6 @@ const Toolbar = (props: ToolbarProps) => {
             setValue(false)
         }
     }
-
-    useEffect(() => {
-        console.log('UserTable users', props.allusers)
-    }, [props.allusers])
-
 
     return(
         <Box sx={{

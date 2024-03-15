@@ -47,7 +47,7 @@ const UsersTable = (props: UserProps) => {
         setSelectedUsers((currentSelectedUsers: number[]) => {
             if (value) {
                 if (!currentSelectedUsers.includes(id)) {
-                    return [...currentSelectedUsers, id];
+                    return [...currentSelectedUsers, id]
                 }
             } else {
                 return currentSelectedUsers.filter((userId) => userId !== id);
@@ -59,7 +59,7 @@ const UsersTable = (props: UserProps) => {
     const renderRow = (rowData: User) => {
 
         return(
-            <TableRow 
+            <TableRow
                 key={rowData.id} 
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -83,17 +83,9 @@ const UsersTable = (props: UserProps) => {
         )
     }
 
-    useEffect(() => {
-        console.log('selectedUsers', selectedUsers)
-    }, [selectedUsers])
-
-    useEffect(() => {
-        console.log('UserTable users', props.users)
-    }, [props.users])
-
 
     return (
-        props.users.length > 0 ? (<Box>
+        (props.users && props.users.length > 0) ? (<Box>
         <Typography variant="h6" sx={{p: 3, pl: 2}}>
             Visitor management
         </Typography>
